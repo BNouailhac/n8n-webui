@@ -20,7 +20,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [streamingMessage, setStreamingMessage] = useState('');
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
 
@@ -112,18 +111,16 @@ export default function Home() {
     setInput('');
     setLoading(true);
     setError(null);
-    setStreamingMessage('');
 
     try {
-      const response = await fetch(`${ollamaUrl}/api/chat`, {
+      const response = await fetch(`http://localhost:5678/webhook/n8n-pipeline`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           model: selectedModel,
-          messages: [...currentMessages, newMessage],
-          stream: true
+          messages: [...currentMessages, newMessage]
         }),
       });
 
@@ -131,39 +128,12 @@ export default function Home() {
         throw new Error(`Server error: ${response.status}`);
       }
 
-      const reader = response.body?.getReader();
-      if (!reader) {
-        throw new Error('Failed to read response');
-      }
+      const IAdata = await response.json();
+      let Message = IAdata.output;
 
-      const decoder = new TextDecoder();
-      let accumulatedMessage = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
-
-        for (const line of lines) {
-          if (line.trim() === '') continue;
-
-          try {
-            const data = JSON.parse(line);
-            if (data.message?.content) {
-              accumulatedMessage += data.message.content;
-              setStreamingMessage(accumulatedMessage);
-            }
-          } catch (e) {
-            console.warn('Failed to parse line:', line);
-          }
-        }
-      }
-
-      if (accumulatedMessage) {
+      if (Message) {
         updateConversation(currentConversationId!, {
-          messages: [...(currentConversation?.messages || []), { role: 'assistant', content: accumulatedMessage }],
+          messages: [...(currentConversation?.messages || []), { role: 'user', content: input }, { role: 'assistant', content: Message }],
           updatedAt: new Date().toISOString()
         });
       }
@@ -172,13 +142,12 @@ export default function Home() {
       setError(error instanceof Error ? error.message : 'Failed to send message');
     } finally {
       setLoading(false);
-      setStreamingMessage('');
     }
   };
 
   const displayMessages = currentConversation ? [
     ...currentConversation.messages,
-    ...(streamingMessage ? [{ role: 'assistant', content: streamingMessage }] : [])
+    ...[]
   ] : [];
 
   const handleImportConversations = useCallback((imported: Conversation[]) => {
@@ -204,7 +173,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col">
         <header className="p-4 border-b">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
-            <h1 className="text-2xl font-bold">Ollama Chat</h1>
+            <h1 className="text-2xl font-bold"><img style={{"width": "160px"}} src="logo.png" alt="Tickitall logo"/></h1>
             <div className="flex items-center gap-4">
               <ModelSelector
                 selectedModel={selectedModel}
@@ -251,7 +220,8 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn"
+              style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
               disabled={loading || !selectedModel || !input.trim()}
             >
               <PaperAirplaneIcon className="w-5 h-5" />

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Cog6ToothIcon, ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import ThemeToggle from "../components/ThemeToggle";
 import { Conversation } from '../types';
 
 interface SettingsProps {
@@ -103,6 +104,7 @@ export default function Settings({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="btn btn-ghost btn-circle"
+        style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
         title="Settings"
       >
         <Cog6ToothIcon className="h-5 w-5" />
@@ -111,19 +113,6 @@ export default function Settings({
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 bg-base-100 rounded-lg shadow-lg p-4 border z-50">
           <h3 className="text-lg font-semibold mb-4">Settings</h3>
-          
-          <div className="form-control mb-4">
-            <label className="label">
-              <span className="label-text">Ollama Server URL</span>
-            </label>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              className="input input-bordered w-full"
-              placeholder="http://127.0.0.1:11434"
-            />
-          </div>
 
           <div className="divider my-2">Chat History</div>
 
@@ -157,7 +146,8 @@ export default function Settings({
             </button>
             <button
               onClick={handleSave}
-              className="btn btn-primary"
+              className="btn"
+              style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
             >
               Save
             </button>

@@ -14,6 +14,5 @@ export interface Conversation {
 
 export interface Model {
   name: string;
-  modified_at: string;
-  size: number;
+  id: string;
 } 

@@ -35,6 +35,7 @@ export default function ThemeToggle() {
       <button
         onClick={toggleTheme}
         className="btn btn-circle btn-ghost"
+        style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
         aria-label="Toggle theme"
       >
         {theme === 'light' ? (

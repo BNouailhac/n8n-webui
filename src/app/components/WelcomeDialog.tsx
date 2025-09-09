@@ -18,7 +18,7 @@ export default function WelcomeDialog({ isOpen, onClose }: WelcomeDialogProps) {
         <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-base-content">Welcome to Ollama Chat</h2>
+              <h2 className="text-xl font-bold text-base-content"><img style={{"width": "200px"}} src="logo.png" alt="Tickitall logo"/></h2>
               <button
                 onClick={onClose}
                 className="btn btn-ghost btn-sm btn-circle"
@@ -56,7 +56,7 @@ export default function WelcomeDialog({ isOpen, onClose }: WelcomeDialogProps) {
             </div>
 
             <div className="mt-6 flex justify-end">
-              <button onClick={onClose} className="btn btn-primary">
+              <button onClick={onClose} className="btn" style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}>
                 Get Started
               </button>
             </div>
@@ -72,7 +72,8 @@ export function HelpButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-6 right-6 btn btn-circle btn-primary shadow-lg z-30"
+      className="fixed bottom-6 right-6 btn btn-circle shadow-lg z-30"
+      style={{ 'backgroundColor': 'var(--fallback-b3, oklch(var(--b3) / var(--tw-bg-opacity, 1)))'}}
       title="Help"
     >
       <QuestionMarkCircleIcon className="w-6 h-6" />

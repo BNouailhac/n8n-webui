@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Ollama Web UI",
-  description: "A beautiful web UI for Ollama",
+  title: "SemaGuard - Tickitall",
+  description: "A securised AI web UI",
 };
 
 export default function RootLayout({

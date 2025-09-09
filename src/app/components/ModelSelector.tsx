@@ -16,15 +16,14 @@ export default function ModelSelector({ selectedModel, onModelSelect, baseUrl }:
     try {
       setError(null);
       setLoading(true);
-      const response = await fetch(`${baseUrl}/api/tags`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch models');
-      }
-      const data = await response.json();
-      const modelList = data.models || [];
+
+      const modelList = [
+        { name: "IA Générale", id: "0" },
+        { name: "Traducteur", id: "1" },
+      ];
+
       setModels(modelList);
 
-      // 如果当前选择的模型不在列表中，选择第一个可用的模型
       if (modelList.length > 0) {
         const modelNames = modelList.map((m: Model) => m.name);
         if (!modelNames.includes(selectedModel)) {
@@ -39,7 +38,6 @@ export default function ModelSelector({ selectedModel, onModelSelect, baseUrl }:
     }
   };
 
-  // 在组件挂载和baseUrl变化时获取模型列表
   useEffect(() => {
     fetchModels();
   }, [baseUrl, selectedModel]);
