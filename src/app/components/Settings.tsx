@@ -1,36 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { Cog6ToothIcon, ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
-import ThemeToggle from "../components/ThemeToggle";
 import { Conversation } from '../types';
 
 interface SettingsProps {
-  onUrlChange: (url: string) => void;
-  initialUrl: string;
   conversations: Conversation[];
   onConversationsImport: (conversations: Conversation[]) => void;
 }
 
 export default function Settings({ 
-  onUrlChange, 
-  initialUrl,
   conversations,
   onConversationsImport
 }: SettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [url, setUrl] = useState(initialUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    setUrl(initialUrl);
-  }, [initialUrl]);
-
   const handleSave = () => {
-    onUrlChange(url);
     setIsOpen(false);
   };
 
   const handleCancel = () => {
-    setUrl(initialUrl);
     setIsOpen(false);
   };
 
@@ -61,7 +49,6 @@ export default function Settings({
         const content = e.target?.result as string;
         const imported = JSON.parse(content) as Conversation[];
         
-        // 验证导入的数据格式
         if (!Array.isArray(imported) || !imported.every(isValidConversation)) {
           throw new Error('Invalid file format');
         }
@@ -73,12 +60,10 @@ export default function Settings({
       }
     };
     reader.readAsText(file);
-    
-    // 清除文件输入，这样同一个文件可以再次选择
+
     event.target.value = '';
   };
 
-  // 验证会话对象的格式
   const isValidConversation = (conv: any): conv is Conversation => {
     return (
       typeof conv === 'object' &&
@@ -146,8 +131,7 @@ export default function Settings({
             </button>
             <button
               onClick={handleSave}
-              className="btn"
-              style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
+              className="btn btn-accent"
             >
               Save
             </button>

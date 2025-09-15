@@ -9,11 +9,6 @@ interface AppState {
   addConversation: (conversation: Conversation) => void;
   updateConversation: (id: string, updates: Partial<Conversation>) => void;
   deleteConversation: (id: string) => void;
-
-  // Ollama URL
-  ollamaUrl: string;
-  setOllamaUrl: (url: string) => void;
-
   // First visit flag
   hasVisited: boolean;
   setHasVisited: (visited: boolean) => void;
@@ -43,10 +38,6 @@ export const useAppStore = create<AppState>()(
           conversations: state.conversations.filter((conv) => conv.id !== id)
         })),
 
-      // Ollama URL
-      ollamaUrl: 'http://127.0.0.1:11434',
-      setOllamaUrl: (url) => set({ ollamaUrl: url }),
-
       // First visit flag
       hasVisited: false,
       setHasVisited: (visited) => set({ hasVisited: visited }),
@@ -61,7 +52,6 @@ export const useAppStore = create<AppState>()(
       name: 'ollama-webui-storage',
       partialize: (state) => ({
         conversations: state.conversations,
-        ollamaUrl: state.ollamaUrl,
         hasVisited: state.hasVisited
       })
     }

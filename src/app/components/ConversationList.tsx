@@ -21,8 +21,7 @@ export default function ConversationList({
       <div className="p-4">
         <button
           onClick={onNew}
-          className="btn w-full gap-2"
-          style={{ 'borderColor': '#e5e7eb', 'border': 'double' }}
+          className="btn btn-outline btn-accent w-full gap-2"
         >
           <PlusIcon className="h-5 w-5" />
           New Chat

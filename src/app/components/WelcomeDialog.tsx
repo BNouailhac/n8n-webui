@@ -56,7 +56,7 @@ export default function WelcomeDialog({ isOpen, onClose }: WelcomeDialogProps) {
             </div>
 
             <div className="mt-6 flex justify-end">
-              <button onClick={onClose} className="btn" style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}>
+              <button onClick={onClose} className="btn btn-accent">
                 Get Started
               </button>
             </div>

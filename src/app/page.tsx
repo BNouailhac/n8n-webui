@@ -10,6 +10,7 @@ import { Conversation, Message } from './types';
 import ThemeToggle from "./components/ThemeToggle";
 import WelcomeDialog, { HelpButton } from './components/WelcomeDialog';
 import { useAppStore } from './store/useAppStore';
+import { Model } from './types';
 
 // Generate unique ID
 const generateId = () => Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -18,7 +19,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedModel, setSelectedModel] = useState<Model>({ name: "Sélection Automatique", icon: "icon/star.png", model: "openrouter/auto",  id: "0" });
   const [error, setError] = useState<string | null>(null);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
@@ -26,13 +27,11 @@ export default function Home() {
   // Use Zustand store
   const {
     conversations,
-    ollamaUrl,
     hasVisited,
     setConversations,
     addConversation,
     updateConversation,
     deleteConversation,
-    setOllamaUrl,
     setHasVisited,
     getCurrentConversation
   } = useAppStore();
@@ -77,10 +76,6 @@ export default function Home() {
     }
   }, [currentConversationId, conversations, deleteConversation]);
 
-  const handleUrlChange = useCallback((newUrl: string) => {
-    setOllamaUrl(newUrl);
-  }, [setOllamaUrl]);
-
   const updateConversationTitle = useCallback((id: string, firstMessage: string) => {
     updateConversation(id, {
       title: firstMessage.substring(0, 30) + (firstMessage.length > 30 ? '...' : ''),
@@ -119,7 +114,8 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: selectedModel,
+          model: selectedModel.model,
+          conversationId: currentConversationId,
           messages: [...currentMessages, newMessage]
         }),
       });
@@ -178,11 +174,8 @@ export default function Home() {
               <ModelSelector
                 selectedModel={selectedModel}
                 onModelSelect={setSelectedModel}
-                baseUrl={ollamaUrl}
               />
               <Settings
-                onUrlChange={handleUrlChange}
-                initialUrl={ollamaUrl}
                 conversations={conversations}
                 onConversationsImport={handleImportConversations}
               />
@@ -220,8 +213,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="btn"
-              style={{ 'borderColor': '#e5e7eb', 'border': 'solid', 'borderWidth': '0.125em' }}
+              className="btn btn-accent"
               disabled={loading || !selectedModel || !input.trim()}
             >
               <PaperAirplaneIcon className="w-5 h-5" />
