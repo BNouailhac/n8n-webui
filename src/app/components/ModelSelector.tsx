@@ -17,14 +17,17 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
   const [error, setError] = useState<string | null>(null);
 
   const modelList = [
-    { name: "Sélection Automatique", icon: "icon/star.png", model: "openrouter/auto",  id: "0" },
-    { name: "Chat GPT", icon: "icon/openai-icon.webp", model: "openai/gpt-5-mini",  id: "1" },
-    { name: "Grok", icon: "icon/grok-icon.webp", model: "x-ai/grok-3-mini", id: "2" },
-    { name: "Claude", icon: "icon/claude-icon.webp", model: "anthropic/claude-3-haiku",  id: "3" },
-    { name: "Google Gemini", icon: "icon/google-bard-icon.webp", model: "google/gemini-2.5-flash",  id: "4" },
-    { name: "Mistral", icon: "icon/mistral-icon.webp", model: "mistralai/mistral-medium-3.1",  id: "5" },
-    { name: "Deepseek", icon: "icon/deepseek-icon.webp", model: "deepseek/deepseek-chat-v3.1:free",  id: "6" },
-    { name: "Qwen", icon: "icon/qwen-icon.webp", model: "deepseek/deepseek-r1-0528-qwen3-8b:free",  id: "7" }
+    { name: "Sélection Automatique", icon: "icon/star.png", model: "openrouter/auto", source: "cloud", id: "0" },
+    { name: "Chat GPT", icon: "icon/openai-icon.webp", model: "openai/gpt-5-mini", source: "cloud", id: "1" },
+    { name: "Grok", icon: "icon/grok-icon.webp", model: "x-ai/grok-3-mini", source: "cloud", id: "2" },
+    { name: "Claude", icon: "icon/claude-icon.webp", model: "anthropic/claude-3-haiku", source: "cloud", id: "3" },
+    { name: "Google Gemini", icon: "icon/google-bard-icon.webp", model: "google/gemini-2.5-flash", source: "cloud", id: "4" },
+    { name: "Mistral", icon: "icon/mistral-icon.webp", model: "mistralai/mistral-medium-3.1", source: "cloud", id: "5" },
+    { name: "Deepseek", icon: "icon/deepseek-icon.webp", model: "deepseek/deepseek-chat-v3.1:free", source: "cloud", id: "6" },
+    { name: "Qwen", icon: "icon/qwen-icon.webp", model: "deepseek/deepseek-r1-0528-qwen3-8b:free", source: "cloud", id: "7" },
+    { name: "gpt-oss:20b", icon: "icon/gpt-oss-120b.png", model: "gpt-oss:20b", source: "local", id: "8" },
+    { name: "gemma3:27b", icon: "icon/gemma.png", model: "gemma3:27b", source: "local", id: "9" },
+    { name: "mixtral:8x7b", icon: "icon/mistral-icon.webp", model: "mixtral:8x7b", source: "local", id: "10" }
   ];
 
   const fetchModels = async () => {
@@ -74,9 +77,25 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
         inputProps={{ 'aria-label': 'Without label' }}
       >
         <MenuItem disabled value="">
-          <em>Pick your favorite option</em>
+          <em>Model Cloud</em>
         </MenuItem>
-        {models.map((model) => (
+        {models.slice(0, 8).map((model) => (
+          <MenuItem
+            key={model.name}
+            value={model.name}
+          >
+            <div style={{"gap": "10px", "display": "flex"}}>
+              <img style={{"width": "24.4px", "borderRadius": "30px"}} src={model.icon} alt="Tickitall logo"/>
+              <div style={{"fontWeight": "bold"}}>
+                {model.name}
+              </div>
+            </div>
+          </MenuItem>
+        ))}
+        <MenuItem disabled value="">
+          <em>Model Local</em>
+        </MenuItem>
+        {models.slice(8).map((model) => (
           <MenuItem
             key={model.name}
             value={model.name}

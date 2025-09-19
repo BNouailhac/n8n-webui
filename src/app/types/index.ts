@@ -16,5 +16,6 @@ export interface Model {
   name: string;
   icon: string;
   model: string;
+  source: string;
   id: string;
 } 

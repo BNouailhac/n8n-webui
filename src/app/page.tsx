@@ -108,7 +108,7 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:5678/webhook/n8n-pipeline`, {
+      const response = await fetch(`http://192.168.207.15:5678/webhook/n8n-pipeline`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,6 +116,7 @@ export default function Home() {
         body: JSON.stringify({
           model: selectedModel.model,
           conversationId: currentConversationId,
+          source: selectedModel.source,
           messages: [...currentMessages, newMessage]
         }),
       });
