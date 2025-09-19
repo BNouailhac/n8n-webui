@@ -24,10 +24,9 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
     { name: "Google Gemini", icon: "icon/google-bard-icon.webp", model: "google/gemini-2.5-flash", source: "cloud", id: "4" },
     { name: "Mistral", icon: "icon/mistral-icon.webp", model: "mistralai/mistral-medium-3.1", source: "cloud", id: "5" },
     { name: "Deepseek", icon: "icon/deepseek-icon.webp", model: "deepseek/deepseek-chat-v3.1:free", source: "cloud", id: "6" },
-    { name: "Qwen", icon: "icon/qwen-icon.webp", model: "deepseek/deepseek-r1-0528-qwen3-8b:free", source: "cloud", id: "7" },
-    { name: "gpt-oss:20b", icon: "icon/gpt-oss-120b.png", model: "gpt-oss:20b", source: "local", id: "8" },
-    { name: "gemma3:27b", icon: "icon/gemma.png", model: "gemma3:27b", source: "local", id: "9" },
-    { name: "mixtral:8x7b", icon: "icon/mistral-icon.webp", model: "mixtral:8x7b", source: "local", id: "10" }
+    { name: "gpt-oss:20b", icon: "icon/gpt-oss-120b.png", model: "gpt-oss:20b", source: "local", id: "7" },
+    { name: "gemma3:27b", icon: "icon/gemma.png", model: "gemma3:27b", source: "local", id: "8" },
+    { name: "mixtral:8x7b", icon: "icon/mistral-icon.webp", model: "mixtral:8x7b", source: "local", id: "9" }
   ];
 
   const fetchModels = async () => {
@@ -79,7 +78,7 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
         <MenuItem disabled value="">
           <em>Model Cloud</em>
         </MenuItem>
-        {models.slice(0, 8).map((model) => (
+        {models.slice(0, 7).map((model) => (
           <MenuItem
             key={model.name}
             value={model.name}
@@ -95,7 +94,7 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
         <MenuItem disabled value="">
           <em>Model Local</em>
         </MenuItem>
-        {models.slice(8).map((model) => (
+        {models.slice(7).map((model) => (
           <MenuItem
             key={model.name}
             value={model.name}

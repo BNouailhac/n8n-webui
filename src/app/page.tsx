@@ -108,7 +108,7 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await fetch(`http://192.168.207.15:5678/webhook/n8n-pipeline`, {
+      const response = await fetch(`http://localhost:5678/webhook/ae07bb24-91c7-46ee-8594-0cdd363a8dde`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
