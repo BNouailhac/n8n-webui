@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import ChatMessage from './components/ChatMessage';
+import ChatLoading from './components/ChatLoading';
 import ModelSelector from './components/ModelSelector';
 import Settings from './components/Settings';
 import ConversationList from './components/ConversationList';
@@ -19,7 +20,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<Model>({ name: "Sélection Automatique", icon: "icon/star.png", model: "openrouter/auto",  id: "0" });
+  const [selectedModel, setSelectedModel] = useState<Model>({ name: "Sélection Automatique", icon: "icon/star.png", model: "openrouter/auto", source: "cloud", id: "0" });
   const [error, setError] = useState<string | null>(null);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
@@ -194,6 +195,9 @@ export default function Home() {
                 content={message.content}
               />
             ))}
+            {loading && (
+              <ChatLoading/>
+            )}
             {error && (
               <div className="text-error text-center p-4">
                 Error: {error}
