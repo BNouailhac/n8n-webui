@@ -7,7 +7,7 @@ interface SettingsProps {
   onConversationsImport: (conversations: Conversation[]) => void;
 }
 
-export default function Settings({ 
+export default function Settings({
   conversations,
   onConversationsImport
 }: SettingsProps) {

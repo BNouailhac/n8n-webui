@@ -109,7 +109,7 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:5678/webhook/ae07bb24-91c7-46ee-8594-0cdd363a8dde`, {
+      const response = await fetch(`http://192.168.207.15:5678/webhook/ae07bb24-91c7-46ee-8594-0cdd363a8dde`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -207,14 +207,18 @@ export default function Home() {
         </main>
 
         <footer className="p-4 border-t">
-          <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex gap-4">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+            <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex gap-4">
+            <textarea
+              className="textarea textarea-bordered flex-1"
               placeholder="Type your message..."
-              className="input input-bordered flex-1"
+              value={input}
+              onChange={(e) => {setInput(e.target.value)}}
               disabled={loading || !selectedModel}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  handleSubmit(e);
+                }
+              }}
             />
             <button
               type="submit"
@@ -223,7 +227,7 @@ export default function Home() {
             >
               <PaperAirplaneIcon className="w-5 h-5" />
             </button>
-          </form>
+            </form>
         </footer>
       </div>
 
