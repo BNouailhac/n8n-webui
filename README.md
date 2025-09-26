@@ -2,8 +2,6 @@
 
 A modern web interface for [Ollama](https://ollama.ai/), featuring a clean design and essential chat functionalities.
 
-![Ollama Web UI Screenshot](screenshot.png)
-
 ## Features
 
 ### Chat Interface
