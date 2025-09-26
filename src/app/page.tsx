@@ -106,10 +106,10 @@ export default function Home() {
 
     setInput('');
     setLoading(true);
-    setError(null);
+    setError(null); 
 
     try {
-      const response = await fetch(`http://192.168.207.15:5678/webhook/ae07bb24-91c7-46ee-8594-0cdd363a8dde`, {
+      const data = await fetch('/api/postmessage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,16 +122,18 @@ export default function Home() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+      const response = await data.json()
 
-      const IAdata = await response.json();
-      let Message = IAdata.output;
+      let Message = response.result.output;
 
-      if (Message) {
+      if (Message && response.result.code === "success") {
         updateConversation(currentConversationId!, {
           messages: [...(currentConversation?.messages || []), { role: 'user', content: input }, { role: 'assistant', content: Message }],
+          updatedAt: new Date().toISOString()
+        });
+      } else if (Message && response.result.code === "user-confirmation") {
+        updateConversation(currentConversationId!, {
+          messages: [...(currentConversation?.messages || []), { role: 'user', content: input }, { role: 'user-confirmation', content: Message }],
           updatedAt: new Date().toISOString()
         });
       }

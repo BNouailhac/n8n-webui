@@ -71,7 +71,12 @@ export default function ModelSelector({ selectedModel, onModelSelect }: ModelSel
       <Select
         displayEmpty
         value={selectedModel.name}
-        onChange={(e) => onModelSelect(modelList.find(m => m.name === e.target.value))}
+        onChange={(e) => {
+          const selected = modelList.find(m => m.name === e.target.value);
+          if (selected) {
+            onModelSelect(selected);
+          }
+        }}
         input={<OutlinedInput />}
         inputProps={{ 'aria-label': 'Without label' }}
       >
