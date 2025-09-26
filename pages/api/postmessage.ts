@@ -17,9 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     headers.append("Content-Type", "application/json");
     headers.append("apiKey", process.env.APIKEY as string);
 
-    console.log("Using webhook URL:", headers);
-    
-
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: headers,

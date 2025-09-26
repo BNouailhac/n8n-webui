@@ -12,6 +12,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import WelcomeDialog, { HelpButton } from './components/WelcomeDialog';
 import { useAppStore } from './store/useAppStore';
 import { Model } from './types';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 // Generate unique ID
 const generateId = () => Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -210,12 +211,14 @@ export default function Home() {
 
         <footer className="p-4 border-t">
             <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex gap-4">
-            <textarea
+            <TextareaAutosize
               className="textarea textarea-bordered flex-1"
               placeholder="Type your message..."
+              maxRows={2}
               value={input}
               onChange={(e) => {setInput(e.target.value)}}
               disabled={loading || !selectedModel}
+              style={{resize: 'none'}}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   handleSubmit(e);

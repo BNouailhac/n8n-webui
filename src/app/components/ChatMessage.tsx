@@ -4,6 +4,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import remarkGfm from 'remark-gfm';
 import { UserIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 interface ChatMessageProps {
   role: string;
@@ -26,36 +27,37 @@ export default function ChatMessage({ role, content }: ChatMessageProps) {
           </div>
         </div>
       </div>
-      <div className={`chat-bubble ${role === 'user' ? 'chat-bubble-neutral' : 'chat-bubble-neutral'} max-w-[85%] lg:max-w-[75%]`}>
+      <div className={`chat-bubble ${role === 'user' ? 'chat-bubble-neutral' : 'chat-bubble-neutral'} max-w-[85%] lg:max-w-[75%]`} style={{"padding": "9px"}}>
         <div className={`prose ${role === 'user' ? 'prose-invert' : ''} prose-headings:text-base-content prose-strong:text-base-content prose-p:text-base-content max-w-none`}>
           {role === 'user-confirmation' ? (
-            <form className="max-w-4xl mx-auto flex gap-4">
-              <div className="flex-1">
-                <div role="alert" className="alert alert-error">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 shrink-0 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>PII détecté !</span>
-                  <div>
-                    <button className="btn btn-sm">Deny</button>
-                    <button className="btn btn-sm btn-primary">Accept</button>
-                  </div>
-                </div>
-                <textarea
-                  className="textarea"
-                  placeholder="Type your message..."
-                  onChange={(e) => {setInputEdit(e.target.value)}}
-                  value={inputEdit}
-                />
+            <form className="space-y-2" style={{"marginBottom": "-10px"}}>
+              <div role="alert" className="alert alert-error rounded-xl p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 shrink-0 stroke-current text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 
+                      2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 
+                      0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span className="text-white font-semibold">PII détecté !</span>
               </div>
+
+              {/* Textarea */}
+              <TextareaAutosize
+                className="textarea textarea-error w-full pr-10"
+                placeholder="Type your message..."
+                onChange={(e) => setInputEdit(e.target.value)}
+                value={inputEdit}
+                style={{ resize: "none" }}
+              />
             </form>
           ) : (
             <ReactMarkdown
